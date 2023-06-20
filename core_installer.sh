@@ -64,6 +64,12 @@ mariadb_password=$(generate_password 12)
 print_red "THE SCRIPT WANTS TO SECURE MARIADB PLEASE THE PASSWORD BELOW. CANNOT ADD IT MANUALLY. BELOW IS YOUR GENERATED PASSWORD. PLEASE SAVE IT SOMEWHERE AND ALWAYS USE IT WHEN ASKED FOR MARIAB PASSWORD DURING INSTALLATION THIS IS IMPORTANT!!!"
 print_green "$mariadb_password"
 
+print_green "CREATING INITIAL DATABASE. WHEN ASKED FOR PASSWORD USE THE ONE BELOW"
+print_green "$mariadb_password"
+sudo mariadb  <<EOF
+CREATE DATABASE IF NOT EXISTS originality_app;
+EOF
+
 # Secure MariaDB installation
 sudo mysql_secure_installation
 
@@ -75,11 +81,7 @@ GRANT ALL ON *.* TO 'root'@'localhost' IDENTIFIED BY '$mariadb_password' WITH GR
 FLUSH PRIVILEGES;
 EOF
 
-print_green "CREATING INITIAL DATABASE. WHEN ASKED FOR PASSWORD USE THE ONE BELOW"
-print_green "$mariadb_password"
-sudo mariadb  <<EOF
-CREATE DATABASE IF NOT EXISTS originality_app;;
-EOF
+
 
 
 
